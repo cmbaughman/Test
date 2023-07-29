@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Twitter Video Downloader</title>
+</head>
+<body>
+<h1>Twitter Video Downloader</h1>
+<input type="text" id="tweetUrl" placeholder="Paste the Twitter URL here">
+<button onclick="downloadVideo()">Download Video</button>
+<script>
+async function downloadVideo() {
+var tweetUrl = document.getElementById("tweetUrl").value;
+const response = await fetch("https://api.twitter.com/1.1/statuses/oembed.json?url=" + tweetUrl);
+if (response.ok) {
+const data = await response.json();
+const videoUrl = data.video_info.url;
+const downloadLink = document.createElement("a");
+downloadLink.href = videoUrl;
+downloadLink.download = "video.mp4";
+document.body.appendChild(downloadLink);
+downloadLink.click();
+} else {
+alert("Error downloading video");
+}
+}
+</script>
+</body>
+</html>
